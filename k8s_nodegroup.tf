@@ -1,3 +1,6 @@
+data "aws_security_group" "eks_control_plane_sg" {
+  vpc_id = aws_vpc.myvpc.id
+}
 resource "aws_security_group" "eks_worker_sg" {
   name        = "eks_worker_sg"
   description = "EKS Worker Nodes Security Group"
@@ -16,7 +19,7 @@ resource "aws_security_group" "eks_worker_sg" {
     from_port        = 0
     to_port          = 65535
     protocol         = "-1"
-    cidr_blocks      = [prisub1a_cidr_block,prisub1b_cidr_block]
+    cidr_blocks      = [var.prisub1a_cidr_block,var.prisub1b_cidr_block]
   }
 
   ingress {
@@ -24,7 +27,7 @@ resource "aws_security_group" "eks_worker_sg" {
     from_port        = 1025
     to_port          = 65535
     protocol         = "tcp"
-    cidr_blocks      = [prisub1a_cidr_block,prisub1b_cidr_block]
+    cidr_blocks      = [var.prisub1a_cidr_block,var.prisub1b_cidr_block]
   }
 
   egress {
