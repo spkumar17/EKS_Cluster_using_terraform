@@ -1,10 +1,3 @@
-data "aws_security_group" "eks_control_plane_sg" {
-  filter {
-    name   = "tag:aws:eks:cluster-name"
-    values = [aws_eks_cluster.example.name]
-  }
-}
-
 resource "aws_security_group" "eks_worker_sg" {
   name        = "eks_worker_sg"
   description = "EKS Worker Nodes Security Group"
