@@ -1,7 +1,12 @@
 
-data "aws_security_group" "eks_control_plane_sg1" {
+data "aws_security_group" "eks_control_plane_sg" {
+  filter {
+    name   = "group-name"  # Key to filter by security group name
+    values = ["eks-cluster-sg-eks-cluster-365256518"]  
+  }
   vpc_id = aws_vpc.myvpc.id
 }
+
 resource "aws_security_group" "eks_worker_sg" {
   name        = "eks_worker_sg"
   description = "EKS Worker Nodes Security Group"
@@ -12,7 +17,7 @@ resource "aws_security_group" "eks_worker_sg" {
     from_port        = 443
     to_port          = 443
     protocol         = "tcp"
-    security_groups  = [data.aws_security_group.eks_control_plane_sg1.id]
+    security_groups  = [data.aws_security_group.eks_control_plane_sg.id]
   }
 
   ingress {
