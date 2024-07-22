@@ -90,7 +90,7 @@ resource "aws_eks_node_group" "nodegroup" {
 
   remote_access {
     # Specify a valid SSH key pair name or remove if SSH access is not needed
-    ec2_ssh_key = "your-ssh-key-name"  
+    ec2_ssh_key = "ssm"  
     source_security_group_ids = [aws_security_group.eks_worker_sg.id]
   }
 
