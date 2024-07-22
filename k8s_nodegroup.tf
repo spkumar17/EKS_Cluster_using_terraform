@@ -1,5 +1,5 @@
 
-data "aws_security_group" "eks_control_plane_sg" {
+data "aws_security_group" "eks_control_plane_sg1" {
   vpc_id = aws_vpc.myvpc.id
 }
 resource "aws_security_group" "eks_worker_sg" {
@@ -12,7 +12,7 @@ resource "aws_security_group" "eks_worker_sg" {
     from_port        = 443
     to_port          = 443
     protocol         = "tcp"
-    security_groups  = [data.aws_security_group.eks_control_plane_sg.id]
+    security_groups  = [data.aws_security_group.eks_control_plane_sg1.id]
   }
 
   ingress {
