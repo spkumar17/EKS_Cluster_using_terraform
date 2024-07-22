@@ -1,8 +1,5 @@
 data "aws_security_group" "eks_control_plane_sg" {
-  filter {
-    name   = "group-name"  # Key to filter by security group name
-    values = ["eks-cluster-sg-eks-cluster-365256518"]  
-  }
+ 
   vpc_id = aws_vpc.myvpc.id
 }
 
