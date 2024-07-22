@@ -18,7 +18,7 @@ resource "aws_security_group" "eks_worker_sg" {
     description      = "Allow nodes to communicate with each other"
     from_port        = 0
     to_port          = 65535
-    protocol         = "-1"
+    protocol         = "tcp"
     cidr_blocks      = [var.prisub1a_cidr_block,var.prisub1b_cidr_block]
   }
 
