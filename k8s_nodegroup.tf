@@ -102,7 +102,7 @@ resource "aws_eks_node_group" "nodegroup" {
 data "aws_security_group" "eks_control_plane_sg" {
   filter {
     name   = "tag:Name"
-    values = ["eks-control-plane-sg"]
+    values =  ["eks-control-plane-sg"]
   }
   vpc_id = aws_vpc.myvpc.id
 }
