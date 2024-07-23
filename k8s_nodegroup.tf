@@ -10,7 +10,7 @@ data "aws_security_group" "eks_control_plane_sg" {
 resource "aws_security_group" "node" {
   name        = "${var.cluster-name}-eks-node-sg"
   description = "Security group for all nodes in the cluster"
-  vpc_id      = "${aws_vpc.eks.id}"
+  vpc_id      = "${aws_vpc.myvpc.id}"
 
   egress {
     from_port   = 0
