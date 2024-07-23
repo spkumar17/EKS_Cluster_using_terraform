@@ -70,7 +70,6 @@ resource "aws_iam_role_policy_attachment" "amazon_eks_cni_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
   role      = aws_iam_role.node.name
 }
-
 resource "aws_eks_node_group" "nodegroup" {
   cluster_name    = aws_eks_cluster.eks.name
   version         = var.eks_version
@@ -78,7 +77,7 @@ resource "aws_eks_node_group" "nodegroup" {
   node_role_arn   = aws_iam_role.node.arn
   subnet_ids      = [aws_subnet.prisubnet1a.id, aws_subnet.prisubnet1b.id]
   instance_types  = [var.instance_types]
-  ami_type               = "AL2_x86_64"
+  
 
   
   scaling_config {
