@@ -39,5 +39,5 @@ variable "eks_version" {
 variable "instance_types" {
     description = "instace type of the node"
     type = string
-    default = "t3.medium"
+    default = "t2.medium"
 }
