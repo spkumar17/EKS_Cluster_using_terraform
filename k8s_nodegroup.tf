@@ -1,5 +1,8 @@
 data "aws_security_group" "eks_control_plane_sg" {
- 
+  filter {
+    name   = "tag:aws:eks:cluster-name"
+    values = ["${var.cluster_name}"]
+  }
   vpc_id = aws_vpc.myvpc.id
 }
 
