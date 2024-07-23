@@ -78,6 +78,8 @@ resource "aws_eks_node_group" "nodegroup" {
   node_role_arn   = aws_iam_role.node.arn
   subnet_ids      = [aws_subnet.prisubnet1a.id, aws_subnet.prisubnet1b.id]
   instance_types  = [var.instance_types]
+  ami_type = "AL2_x86_64"
+
   
   scaling_config {
     desired_size = 2
