@@ -12,7 +12,7 @@ resource "aws_security_group" "eks_worker_sg" {
   description = "EKS Worker Nodes Security Group"
   vpc_id      = aws_vpc.myvpc.id
 
-  ingress {
+    ingress {
     description      = "Allow pods to communicate with the cluster API Server"
     from_port        = 443
     to_port          = 443
