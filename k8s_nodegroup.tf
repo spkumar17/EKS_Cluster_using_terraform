@@ -1,8 +1,9 @@
 data "aws_security_group" "eks_control_plane_sg" {
   filter {
-    name   = "tag:aws:eks:cluster-name"
-    values = ["${var.cluster-name}"]
+    name   = "tag:kubernetes.io/cluster/${var.cluster-name}"
+    values = ["owned", "shared"]
   }
+
   vpc_id = aws_vpc.myvpc.id
 }
 
