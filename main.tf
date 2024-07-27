@@ -22,6 +22,8 @@ terraform {
   }
 }
 
+
+
 # Include your separate Terraform configuration files
 # VPC resources configuration
 

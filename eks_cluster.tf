@@ -27,7 +27,6 @@ resource "aws_iam_role_policy_attachment" "cluster-AmazonEKSServicePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
   role       = aws_iam_role.eks_cluster.name
 }
-
 # creating eks cluster 
 resource "aws_eks_cluster" "eks" {
   name     = "${var.cluster-name}"
@@ -36,7 +35,7 @@ resource "aws_eks_cluster" "eks" {
 
 
   vpc_config {
-    #security_group_ids = ["${aws_security_group.cluster.id}"]
+    security_group_ids = [data.aws_security_group.eks_control_plane_sg.id]
     endpoint_private_access = false
     endpoint_public_access = true
     subnet_ids         = [

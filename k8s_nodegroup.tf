@@ -1,3 +1,44 @@
+data "aws_security_group" "eks_control_plane_sg" {
+  vpc_id = aws_vpc.myvpc.id
+}
+
+
+resource "aws_security_group" "eks_worker_sg" {
+  name        = "eks_worker_sg"
+  description = "EKS Worker Nodes Security Group"
+  vpc_id      = aws_vpc.myvpc.id
+
+  ingress {
+    description     = "Allow pods to communicate with the cluster API Server"
+    from_port       = 443
+    to_port         = 443
+    protocol        = "tcp"
+    security_groups = [data.aws_security_group.eks_control_plane_sg.id]
+  }
+
+  ingress {
+    description = "Allow nodes to communicate with each other"
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = [var.prisub1a_cidr_block, var.prisub1b_cidr_block]
+  }
+
+  ingress {
+    description = "Allow worker Kubelets and pods to receive communication from the cluster control plane"
+    from_port   = 1025
+    to_port     = 65535
+    protocol    = "tcp"
+    security_groups = [data.aws_security_group.eks_control_plane_sg.id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
 
 resource "aws_iam_role" "node" {
   name = "${var.cluster-name}-eks-node-role"
@@ -53,6 +94,8 @@ resource "aws_eks_node_group" "nodegroup" {
   remote_access {
     # Specify a valid SSH key pair name or remove if SSH access is not needed
     ec2_ssh_key = "ssm"  
+    source_security_group_ids = [aws_security_group.eks_worker_sg.id]
+
   }
 
   depends_on = [
