@@ -1,5 +1,8 @@
 data "aws_security_group" "eks_control_plane_sg" {
   vpc_id = aws_vpc.myvpc.id
+   tags = {
+    Name = "eks-control-plane-sg"
+  }
 }
 
 
@@ -37,6 +40,9 @@ resource "aws_security_group" "eks_worker_sg" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+   tags = {
+    Name = "eks-nodegroup-sg"
   }
 }
 
