@@ -1,11 +1,33 @@
-data "aws_security_group" "eks_control_plane_sg" {
-  vpc_id = aws_vpc.myvpc.id
-   tags = {
-    Name = "eks-control-plane-sg"
+resource "aws_security_group" "control_plane_sg" {
+  name        = "control-plane-sg"
+  description = "Security group for Kubernetes control plane"
+  vpc_id      = aws_vpc.myvpc.id
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 6443
+    to_port     = 6443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "control-plane-sg"
   }
 }
-
-
 resource "aws_security_group" "eks_worker_sg" {
   name        = "eks_worker_sg"
   description = "EKS Worker Nodes Security Group"
@@ -16,7 +38,7 @@ resource "aws_security_group" "eks_worker_sg" {
     from_port       = 443
     to_port         = 443
     protocol        = "tcp"
-    security_groups = [data.aws_security_group.eks_control_plane_sg.id]
+    security_groups = [aws_security_group.control_plane_sg.id]
   }
 
   ingress {
@@ -32,7 +54,7 @@ resource "aws_security_group" "eks_worker_sg" {
     from_port   = 1025
     to_port     = 65535
     protocol    = "tcp"
-    security_groups = [data.aws_security_group.eks_control_plane_sg.id]
+    security_groups = [aws_security_group.control_plane_sg.id]
   }
 
   egress {
