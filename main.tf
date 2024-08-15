@@ -16,7 +16,7 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket         = "tfstatefile-s3-store" # Backet name (Unique)
+    bucket         = "tfstatefile-s3-store-acc2" # Backet name (Unique)
     key            = "eks_terraform.tfstate" # name of the file in Bucket
     region         = "us-east-1" 
   }
