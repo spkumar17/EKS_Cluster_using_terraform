@@ -125,10 +125,7 @@ resource "aws_eks_node_group" "nodegroup" {
     max_size     = 3
     min_size     = 1
   }
-  metadata_options {
-    http_endpoint = "enabled"
-    http_tokens   = "required"
-  }
+  
   update_config {
     max_unavailable = 1
   }
