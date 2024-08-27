@@ -7,14 +7,14 @@ resource "aws_security_group" "control_plane_sg" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.0.0/16"]
   }
 
   ingress {
     from_port   = 6443
     to_port     = 6443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.0.0/16"]
   }
 
   egress {
@@ -43,18 +43,10 @@ resource "aws_security_group" "eks_worker_sg" {
 
   ingress {
     description = "Allow nodes to communicate with each other"
-    from_port   = 0
-    to_port     = 65535
+    from_port   = 10250
+    to_port     = 10250
     protocol    = "tcp"
     cidr_blocks = [var.prisub1a_cidr_block, var.prisub1b_cidr_block]
-  }
-
-  ingress {
-    description = "Allow worker Kubelets and pods to receive communication from the cluster control plane"
-    from_port   = 1025
-    to_port     = 65535
-    protocol    = "tcp"
-    security_groups = [aws_security_group.control_plane_sg.id]
   }
 
   egress {
